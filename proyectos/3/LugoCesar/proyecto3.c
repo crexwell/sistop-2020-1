@@ -14,10 +14,10 @@ int int main(void) {
 
   scanf("%d", &select);
   switch (select) {
-    case 1:listDir()
-    case 2:copFile()
-    case 3:
-    case 4:
+    case 1:listDir();
+    case 2:copFile();
+    case 3:copFile();
+    //case 4:rmFile(1,[1]);
     case 5:
     default:
       printf("Opcion no valida\n", );
@@ -47,37 +47,60 @@ int listDir(void) {
   return(0);
 }
 
-int copFile(int argn, char * argv[]){
+int copFile(){
 
-    int src_fd, dst_fd, n, error;
-    unsigned char buffer[4096];
-    char * src_path, dst_path;
+      FILE *fptr1, *fptr2;
+      char filename[100], c;
 
-    if (argn != 3){
-      printf("Wrong argument count.\n", );
-      exit(1);
-    }
+      printf("Enter the filename to open for reading \n");
+      scanf("%s", filename);
 
-    src_path = argv[1];
-    dst_path = argv[2];
-
-    scr_fd = open(src, O_RDONLY);
-    dst_fd = open(dst_path, O_CREAT | O_WRONLY);
-
-    while (1) {
-      error = read(src_fd, buffer, 4096);
-      if (error == -1){
-        printf("Error reading file.\n", );
-        exit(1)
+      // Esta parte es para abrir el archivo
+      fptr1 = fopen(filename, "r");
+      if (fptr1 == NULL)
+      {
+          printf("Cannot open file %s \n", filename);
+          exit(0);
       }
-      n = error;
 
-      if (n == 0) break;
-      error = write(dst_fd, buffer, n);
-      if (error == -1){
-        printf("Error writing to file\n", );
+      printf("Enter the filename to open for writing \n");
+      scanf("%s", filename);
+
+
+      fptr2 = fopen(filename, "w");
+      if (fptr2 == NULL)
+      {
+          printf("Cannot open file %s \n", filename);
+          exit(0);
       }
-    }
-    close(src_fd);
-    close(dst_fd);
+
+      // leemos el contenido del archivo
+      c = fgetc(fptr1);
+      while (c != EOF)
+      {
+          fputc(c, fptr2);
+          c = fgetc(fptr1);
+      }
+
+      printf("\nContents copied to %s", filename);
+
+      fclose(fptr1);
+      fclose(fptr2);
+      return 0;
 }
+/*void rmFile(int argc, char* argv[]){
+if(argc!=2 || argv[1]=="--help")
+  {
+    printf("\nusage: rm FileTodelete\n");
+  }
+int status;
+status=remove(argv[1]);
+if(status==0)
+  {
+    printf("successfull\n");
+  }
+else
+   {
+    printf("Unsuccessfull\n");
+   }
+}*/

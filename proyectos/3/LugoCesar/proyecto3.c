@@ -17,7 +17,7 @@ int int main(void) {
     case 1:listDir();
     case 2:copFile();
     case 3:copFile();
-    //case 4:rmFile(1,[1]);
+    case 4:rmFile(1,[1]);
     case 5:
     default:
       printf("Opcion no valida\n", );
@@ -88,7 +88,7 @@ int copFile(){
       fclose(fptr2);
       return 0;
 }
-/*void rmFile(int argc, char* argv[]){
+void rmFile(int argc, char* argv[]){
 if(argc!=2 || argv[1]=="--help")
   {
     printf("\nusage: rm FileTodelete\n");
@@ -103,4 +103,4 @@ else
    {
     printf("Unsuccessfull\n");
    }
-}*/
+}

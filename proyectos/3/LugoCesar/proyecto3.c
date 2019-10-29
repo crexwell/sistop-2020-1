@@ -18,7 +18,7 @@ int int main(void) {
     case 2:copFile();
     case 3:copFile();
     case 4:rmFile(1,[1]);
-    case 5:
+    case 5: defragment();
     default:
       printf("Opcion no valida\n", );
   }
@@ -103,4 +103,52 @@ else
    {
     printf("Unsuccessfull\n");
    }
+}
+
+void defragment(Pool* pool)
+{
+    if(pool && pool->root)
+    {
+        Block* current = pool->root;
+
+        while(current)
+        {
+            if(!current->free)
+            {
+                Block* current_prev = current->prev;
+
+                if(current_prev && current_prev->free)
+                {
+                    Block* prev_prev = current_prev->prev;
+                    int new_block_size = current_prev->size;
+
+                    Block* moved_current = memmove(current_prev, current, sizeof(Block) + current->size);
+
+                    if(!moved_current)
+                    {
+                        printf("couldn't move memory\n");
+                    }
+                    else
+                    {
+                        Block* new_block = initBlock((((char*)moved_current) + sizeof(Block) + moved_current->size), new_block_size);
+                        new_block->prev = moved_current;
+                        new_block->next = moved_current->next;
+
+                        moved_current->prev = prev_prev;
+                        moved_current->next = new_block;
+
+                        if(prev_prev)
+                        {
+                            prev_prev->next = moved_current;
+                        }
+
+                        current = moved_current;
+                        continue;
+                    }
+                }
+            }
+
+            current = current->next;
+        }
+    }
 }

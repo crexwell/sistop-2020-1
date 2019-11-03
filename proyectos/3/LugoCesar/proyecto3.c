@@ -1,9 +1,16 @@
 #include <dirent.h>
 #include <stdio.h>
+<<<<<<< HEAD
 /* La verdad no estoy seguro de lo que estaba haciendo, creo que el codigo 
 no se acerca a la solucion pero no se me ocurrio nada más :'('*/
 
 int int main(void) {
+=======
+/* La verdad no estoy seguro de lo que estaba haciendo, creo que el codigo
+no se acerca a la solucion pero no se me ocurrio nada más :'(*/
+
+//int int main(void) {
+>>>>>>> proyecto3
 
   int select;
   printf("Seleccione alguna opcion:\n");
